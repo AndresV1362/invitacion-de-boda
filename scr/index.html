@@ -152,21 +152,21 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
                 } else {
-                    entry.target.classList.remove('active'); // Esto hace que desaparezca al pasarla
+                    entry.target.classList.remove('active');
                 }
             });
-        }, { threshold: 0.2 }); // Se activa cuando el 20% es visible
+        }, { threshold: 0.2 });
 
         document.querySelectorAll('.seccion').forEach(s => observer.observe(s));
 
     </script>
 
 </body>
-<footer style="text-align: center; padding: 60px 20px; color: var(--verde); opacity: 0.8;">
-    <!-- SECCIÓN DE CIERRE (FOOTER) -->
-    <div class="seccion">
-        <img src="img/footer.png" alt="Muchas gracias por su presencia">
-    </div>
-</footer>
+<footer style="text-align: center; padding-bottom: 50px;">
+        <div class="seccion">
+            <!-- IMPORTANTE: Verifica que el nombre sea footer.jpg como tu archivo original -->
+            <img src="img/footer.png" alt="Muchas gracias por su presencia">
+        </div>
+    </footer>
 
 </html>
