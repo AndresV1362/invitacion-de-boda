@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Invitación Ale & Andres</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#f8f5f2,#efe7df);
+  font-family: 'Georgia', serif;
+}
+
+/* CONTENEDOR */
+.scene{
+  perspective:1200px;
+}
+
+/* SOBRE */
+.envelope{
+  width:320px;
+  height:220px;
+  position:relative;
+  cursor:pointer;
+  transform-style:preserve-3d;
+}
+
+/* BASE */
+.base{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#6b0f1a;
+  border-radius:6px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* TAPA */
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#8c1c2c;
+  clip-path:polygon(0 0,100% 0,50% 60%);
+  transform-origin:top;
+  transition:1s ease;
+}
+
+/* CARTA */
+.card{
+  position:absolute;
+  width:90%;
+  height:180px;
+  background:white;
+  left:5%;
+  top:20px;
+  border-radius:4px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  transform:translateY(40px);
+  transition:1s ease;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* TU IMAGEN */
+.card img{
+  width:100%;
+}
+
+/* TEXTO */
+.tap{
+  position:absolute;
+  bottom:-40px;
+  width:100%;
+  text-align:center;
+  font-size:14px;
+  color:#555;
+  letter-spacing:1px;
+}
+
+/* ANIMACIÓN */
+.open .flap{
+  transform:rotateX(180deg);
+}
+
+.open .card{
+  transform:translateY(-120px) scale(1.05);
+}
+
+.fade-out{
+  animation:fadeOut 1s forwards;
+}
+
+@keyframes fadeOut{
+  to{
+    opacity:0;
+    transform:scale(1.1);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="scene">
+  <div class="envelope" onclick="abrir(this)">
+    
+    <div class="base"></div>
+    <div class="flap"></div>
+
+        <div class="tap">Toca para abrir</div>
+
+  </div>
+</div>
+
+<script>
+function abrir(el){
+  el.classList.add("open");
+
+  setTimeout(()=>{
+    el.classList.add("fade-out");
+  },1200);
+
+  setTimeout(()=>{
+    window.location.href="https://invitacion-de-boda-six.vercel.app/?p=3";
+  },2000);
+}
+</script>
+
+</body>
+</html>
