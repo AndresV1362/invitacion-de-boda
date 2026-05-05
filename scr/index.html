@@ -74,7 +74,7 @@
 </head>
 <body>
 
-        <div class="seccion"><img src="img/invitacion.png" alt="invitacion"></div>
+        <div class="seccion"><img src="img/sobre.png" alt="sobre"></div>
         <div class="seccion"><img src="img/portada.png" alt="portada"></div>
         <div class="seccion"><img src="img/fecha.png" alt="fecha"></div>
         
@@ -84,15 +84,16 @@
         <div class="bloque"><span class="num" id="m">00</span><span class="label">Min</span></div>
         <div class="bloque"><span class="num" id="s">00</span><span class="label">Seg</span></div>
     </div>
+    <div class="seccion"><img src="img/DressCode.png" alt="dress code"></div>
 
     <div class="seccion">
-        <img src="img/itinerario.png">
+        <img src="img/itinerario.png" alt="itinerario">
         <a href="https://maps.app.goo.gl/tPn4C9vv972UdbKR6" target="_blank" class="boton-link" style="top:11%; left:32%; width:36%; height:4%;"></a>
     </div>
         
 <div class="seccion">
     <!-- El id="img-pases" nos permitirá cambiar la imagen con JavaScript -->
-    <img id="img-pases" src="img/4pases.png"> 
+    <img id="img-pases" src="img/4pases.png" alt="pases"> 
     <a href="https://maps.app.goo.gl/SNVArvY3QopqJmcJ6" target="_blank" class="boton-link" style="top:59.5%; left:30%; width:40%; height:4.5%;"></a>
     <a href="https://maps.app.goo.gl/t2GW6xMsnoWNFMhx6" target="_blank" class="boton-link" style="top:66%; left:30%; width:40%; height:4.5%;"></a>
     <a href="https://www.homcenter.com.bo" target="_blank" class="boton-link" style="top:55%; left:30%; width:40%; height:3%;"></a>
@@ -115,6 +116,25 @@
     </div>
 
 <script>
+
+    // 1. LEER EL LINK (Esto debe ir al principio del script)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pases = urlParams.get('p') || '4'; // Si no hay número, usa 4 por defecto
+
+    // 2. CAMBIAR LA IMAGEN DE LOS PASES
+    const imagenPases = document.getElementById('img-pases');
+    if (imagenPases) {
+        // Esto cambia "img/4pases.png" por "img/1pases.png", etc.
+        imagenPases.src = `img/${pases}pases.png`;
+    }
+
+    // 3. CAMBIAR EL FORMULARIO DE TALLY
+    const iframeTally = document.querySelector('iframe');
+    if (iframeTally) {
+        iframeTally.src = `https://tally.so/embed/81Jyax?pases=${pases}&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
+    }
+
+
         // Reloj Regresivo
         const fin = new Date('June 20, 2026 15:15:00').getTime();
         setInterval(() => {
@@ -139,18 +159,14 @@
 
         document.querySelectorAll('.seccion').forEach(s => observer.observe(s));
 
-        // Función para leer los pases desde el link (ejemplo: tudominio.com/?p=2)
-const urlParams = new URLSearchParams(window.location.search);
-const pases = urlParams.get('p') || '4'; // Si no pones nada en el link, por defecto serán 4
-
-// 1. Cambia la imagen automáticamente (busca img/1pases.png, img/2pases.png, etc)
-const imagen = document.getElementById('img-pases');
-imagen.src = `img/${pases}pases.png`;
-
-// 2. Cambia el formulario de Tally para que reciba el número correcto de pases
-const formulario = document.getElementById('form-tally');
-formulario.src = `https://tally.so/embed/81Jyax?pases=${pases}&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
     </script>
 
 </body>
+<footer style="text-align: center; padding: 60px 20px; color: var(--verde); opacity: 0.8;">
+    <!-- SECCIÓN DE CIERRE (FOOTER) -->
+    <div class="seccion">
+        <img src="img/footer.png" alt="Muchas gracias por su presencia">
+    </div>
+</footer>
+
 </html>
