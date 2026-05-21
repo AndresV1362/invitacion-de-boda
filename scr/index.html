@@ -118,50 +118,53 @@
     </div>
 
 <script>
-
     // 1. LEER EL LINK (Esto debe ir al principio del script)
     const urlParams = new URLSearchParams(window.location.search);
-    const pases = urlParams.get('p') || '4'; // Si no hay número, usa 4 por defecto
+    const pasesOriginal = urlParams.get('p') || '4'; // Lee el valor del link (ej: '3' o '3r')
 
-    // 2. CAMBIAR LA IMAGEN DE LOS PASES
+    // 2. DETECTAR SI ES REZAGADO Y ADAPTAR PARA TALLY
+    // Si el link tiene una 'r', la limpiamos para que Tally solo reciba el número limpio
+    const pasesLimpio = pasesOriginal.replace('r', ''); 
+
+    // 3. CAMBIAR LA IMAGEN DE LOS PASES
     const imagenPases = document.getElementById('img-pases');
     if (imagenPases) {
-        // Esto cambia "img/4pases.png" por "img/1pases.png", etc.
-        imagenPases.src = `img/${pases}pases.png`;
+        // Si el link es ?p=3, cargará "img/3pases.png"
+        // Si el link es ?p=3r, cargará tu nueva imagen "img/3rpases.png"
+        imagenPases.src = `img/${pasesOriginal}pases.png`;
     }
 
-    // 3. CAMBIAR EL FORMULARIO DE TALLY
+    // 4. CAMBIAR EL FORMULARIO DE TALLY
     const iframeTally = document.querySelector('iframe');
     if (iframeTally) {
-        iframeTally.src = `https://tally.so/embed/81Jyax?pases=${pases}&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
+        // Le pasamos a Tally el número limpio (sin la 'r') para que tu lógica de pases no se confunda
+        iframeTally.src = `https://tally.so/embed/81Jyax?pases=${pasesLimpio}&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
     }
 
+    // Reloj Regresivo
+    const fin = new Date('June 20, 2026 15:15:00').getTime();
+    setInterval(() => {
+        const ahora = new Date().getTime();
+        const diff = fin - ahora;
+        document.getElementById('d').innerText = Math.floor(diff / (86400000));
+        document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000);
+        document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
+        document.getElementById('s').innerText = Math.floor((diff % 60000) / 1000);
+    }, 1000);
 
-        // Reloj Regresivo
-        const fin = new Date('June 20, 2026 15:15:00').getTime();
-        setInterval(() => {
-            const ahora = new Date().getTime();
-            const diff = fin - ahora;
-            document.getElementById('d').innerText = Math.floor(diff / (86400000));
-            document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000);
-            document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
-            document.getElementById('s').innerText = Math.floor((diff % 60000) / 1000);
-        }, 1000);
+    // Efecto de aparición y desaparición (Intersection Observer)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                entry.target.classList.remove('active');
+            }
+        });
+    }, { threshold: 0.2 });
 
-        // Efecto de aparición y desaparición (Intersection Observer)
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                } else {
-                    entry.target.classList.remove('active');
-                }
-            });
-        }, { threshold: 0.2 });
-
-        document.querySelectorAll('.seccion').forEach(s => observer.observe(s));
-
-    </script>
+    document.querySelectorAll('.seccion').forEach(s => observer.observe(s));
+</script>
 
 </body>
 <!-- Cierre de página con imagen de agradecimiento -->
