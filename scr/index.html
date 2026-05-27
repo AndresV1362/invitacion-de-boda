@@ -118,30 +118,37 @@
     </div>
 
 <script>
-    // 1. LEER EL LINK (Esto debe ir al principio del script)
+    // 1. LEER EL LINK
     const urlParams = new URLSearchParams(window.location.search);
-    const pasesOriginal = urlParams.get('p') || '4'; // Lee el valor del link (ej: '3' o '3r')
+    const pasesOriginal = urlParams.get('p') || '4'; 
 
-    // 2. DETECTAR SI ES REZAGADO Y ADAPTAR PARA TALLY
-    // Si el link tiene una 'r', la limpiamos para que Tally solo reciba el número limpio
-    const pasesLimpio = pasesOriginal.replace('r', ''); 
+    // Ocultar pases y formulario si el link es "general"
+    if (pasesOriginal === 'general') {
+        // Buscamos los contenedores de los pases y del formulario para ocultarlos
+        // NOTA: Asegúrate de que los IDs o clases coincidan con tus etiquetas HTML
+        const seccionPases = document.getElementById('img-pases')?.parentElement; 
+        const seccionTally = document.querySelector('iframe')?.parentElement;
 
-    // 3. CAMBIAR LA IMAGEN DE LOS PASES
-    const imagenPases = document.getElementById('img-pases');
-    if (imagenPases) {
-        // Si el link es ?p=3, cargará "img/3pases.png"
-        // Si el link es ?p=3r, cargará tu nueva imagen "img/3rpases.png"
-        imagenPases.src = `img/${pasesOriginal}pases.png`;
+        if (seccionPases) seccionPases.style.display = 'none';
+        if (seccionTally) seccionTally.style.display = 'none';
+    } else {
+        // Lógica normal para los invitados con pases configurados
+        const pasesLimpio = pasesOriginal.replace('r', ''); 
+
+        // 2. CAMBIAR LA IMAGEN DE LOS PASES
+        const imagenPases = document.getElementById('img-pases');
+        if (imagenPases) {
+            imagenPases.src = `img/${pasesOriginal}pases.png`;
+        }
+
+        // 3. CAMBIAR EL FORMULARIO DE TALLY
+        const iframeTally = document.querySelector('iframe');
+        if (iframeTally) {
+            iframeTally.src = `https://tally.so/embed/81Jyax?pases=${pasesLimpio}&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
+        }
     }
 
-    // 4. CAMBIAR EL FORMULARIO DE TALLY
-    const iframeTally = document.querySelector('iframe');
-    if (iframeTally) {
-        // Le pasamos a Tally el número limpio (sin la 'r') para que tu lógica de pases no se confunda
-        iframeTally.src = `https://tally.so/embed/81Jyax?pases=${pasesLimpio}&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
-    }
-
-    // Reloj Regresivo
+    // Reloj Regresivo (Se mantiene intacto)
     const fin = new Date('June 20, 2026 15:15:00').getTime();
     setInterval(() => {
         const ahora = new Date().getTime();
