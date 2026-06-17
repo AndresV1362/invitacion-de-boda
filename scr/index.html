@@ -116,23 +116,46 @@
             title="Confirmación de Asistencia">
         </iframe>
     </div>
+<!-- SECCIÓN EXCLUSIVA PARA EL LINK GENERAL -->
+<div id="seccion-general-exclusiva" style="display: none; text-align: center; margin-top: 30px; margin-bottom: 50px;">
+    <div style="position: relative; display: inline-block; width: 100%; max-width: 500px;">
+        <!-- Imagen base -->
+        <img src="img/ubicaionG.jpg" alt="Ubicaciones y Regalos" style="width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        
+        <!-- Botón invisible sobre "UBICACIÓN CASA DE LA NOVIA" -->
+        <a href="https://maps.app.goo.gl/GLcADLvTupZHm4Ea7" target="_blank" style="position: absolute; top: 68%; left: 30%; width: 40%; height: 10%; cursor: pointer; display: block; background: rgba(0,0,0,0);"></a>
+        
+        <!-- Botón invisible sobre "UBICACIÓN CASA DEL NOVIO" -->
+        <a href="https://maps.app.goo.gl/errXZ9LBhH81mZmU7" target="_blank" style="position: absolute; top: 81%; left: 30%; width: 40%; height: 10%; cursor: pointer; display: block; background: rgba(0,0,0,0);"></a>
+    </div>
+</div>
 
 <script>
     // 1. LEER EL LINK
     const urlParams = new URLSearchParams(window.location.search);
     const pasesOriginal = urlParams.get('p') || '4'; 
 
+    // Obtener la sección exclusiva general que acabamos de crear
+    const seccionGeneralExclusiva = document.getElementById('seccion-general-exclusiva');
+
     // Ocultar pases y formulario si el link es "general"
     if (pasesOriginal === 'general') {
-        // Buscamos los contenedores de los pases y del formulario para ocultarlos
-        // NOTA: Asegúrate de que los IDs o clases coincidan con tus etiquetas HTML
         const seccionPases = document.getElementById('img-pases')?.parentElement; 
         const seccionTally = document.querySelector('iframe')?.parentElement;
 
         if (seccionPases) seccionPases.style.display = 'none';
         if (seccionTally) seccionTally.style.display = 'none';
+
+        // MÁGIA: Mostramos la sección de regalos y mapas solo para el link general
+        if (seccionGeneralExclusiva) {
+            seccionGeneralExclusiva.style.display = 'block';
+        }
     } else {
         // Lógica normal para los invitados con pases configurados
+        if (seccionGeneralExclusiva) {
+            seccionGeneralExclusiva.style.display = 'none'; // Nos aseguramos de que los demás no lo vean
+        }
+
         const pasesLimpio = pasesOriginal.replace('r', ''); 
 
         // 2. CAMBIAR LA IMAGEN DE LOS PASES
@@ -148,7 +171,7 @@
         }
     }
 
-    // Reloj Regresivo (Se mantiene intacto)
+    // Reloj Regresivo (Recuerda mantener tu fecha actualizada al 7 de agosto)
     const fin = new Date('August 7, 2026 15:15:00').getTime();
     setInterval(() => {
         const ahora = new Date().getTime();
@@ -159,7 +182,7 @@
         document.getElementById('s').innerText = Math.floor((diff % 60000) / 1000);
     }, 1000);
 
-    // Efecto de aparición y desaparición (Intersection Observer)
+    // Efecto de aparición (Intersection Observer)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
